@@ -17,15 +17,187 @@ color:white;
 font-family:Arial;
 font-size:48px;
 letter-spacing:3px;
+flex-direction:column;
+}
+
+
+
+.popup{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.9);
+display:none;
+justify-content:center;
+align-items:center;
+color:red;
+font-size:32px;
+text-align:center;
+}
+
+.popupBox{
+position:relative;
+background:black;
+padding:40px;
+border:2px solid red;
+}
+
+.closeBtn{
+position:absolute;
+top:5px;
+right:10px;
+cursor:pointer;
+color:white;
+font-size:24px;
+}
+
+
+
+.erro{
+display:none;
+flex-direction:column;
+align-items:center;
+color:red;
+font-size:42px;
+}
+
+.stop{
+display:none;
+color:white;
+font-size:18px;
+margin-top:10px;
+}
+
+img{
+display:none;
+max-width:300px;
+margin-top:20px;
 }
 
 </style>
-
 </head>
 
 <body>
 
-TT is backing
+<div id="texto">
+    <p>TT is backing</p>
+</div>
+
+<img id="imagem" src="Design_sem_nome-removebg-preview (1).png">
+
+<div id="popup" class="popup">
+<div class="popupBox">
+
+<div class="closeBtn" onclick="fecharPopup()">X</div>
+
+Security Log - Subject removed
+
+</div>
+</div>
+
+<div id="erro" class="erro">
+
+<span>ERRO 929</span>
+
+<span>a página parou</span>
+
+<div id="stop" class="stop">
+Stop... here... NOW...
+</div>
+
+</div>
+
+<script>
+
+window.addEventListener("load", () => {
+
+const popup = document.getElementById("popup");
+const texto = document.getElementById("texto");
+const imagem = document.getElementById("imagem");
+const erro = document.getElementById("erro");
+const stop = document.getElementById("stop");
+
+const ERROR_FLAG = "tt_project_error";
+
+
+
+if(localStorage.getItem(ERROR_FLAG) === "1"){
+
+texto.style.display="none";
+popup.style.display="none";
+imagem.style.display="none";
+
+erro.style.display="flex";
+
+setTimeout(()=>{
+stop.style.display="block";
+},2000);
+
+console.error("##ERROR## Subject removed from TT system.");
+throw new Error("TT SECURITY FAILURE - SUBJECT ERASED");
+
+return;
+
+}
+
+
+
+setTimeout(()=>{
+
+popup.style.display="flex";
+
+},10000);
+
+
+
+
+window.fecharPopup = function(){
+
+popup.style.display="none";
+
+
+
+texto.style.display="none";
+imagem.style.display="block";
+
+setTimeout(()=>{
+
+imagem.style.display = "none";
+texto.style.display = "block";
+
+
+
+setTimeout(()=>{
+
+texto.style.display="none";
+erro.style.display="flex";
+
+
+
+localStorage.setItem(ERROR_FLAG,"1");
+
+
+
+setTimeout(()=>{
+
+stop.style.display="block";
+
+console.error("##ERROR## Subject removed from TT system.");
+throw new Error("TT SECURITY FAILURE - SUBJECT ERASED");
+
+},2000);
+
+},5000);
+
+},1000);
+
+}
+
+});
+
+</script>
 
 </body>
 </html>
