@@ -1,42 +1,160 @@
-<!DOCTYPE html><html lang="pt-BR">
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <title>TT</title>
-  <style>
-    html, body {margin:0;padding:0;width:100%;height:100%;background-color:#000;display:flex;justify-content:center;align-items:center;color:#fff;font-family:Arial, Helvetica, sans-serif}
-    .texto {font-size:48px;letter-spacing:4px}
-    .erro {position:fixed;top:0;left:0;width:100%;height:100%;background:#000;display:none;justify-content:center;align-items:center;text-align:center;color:#ff0000;font-weight:bold;font-size:42px;line-height:1.2}
-    .erro span {display:block}
-  </style>
-</head>
-<body>
-  <div class="texto">*TT*</div>
-  <!-- The worst mistake of my life was having ##ERROR## -->
-  <div id="erro" class="erro">
-    <span>ERRO 929</span>
-    <span>a página parou</span>
-  </div>
-  <script>
-    const texto = document.querySelector('.texto');
-    const erroTela = document.getElementById('erro');
-    const FLAG = 'erro_929_ativo';function ativarErro(){
-  localStorage.setItem(FLAG,'1');
-  erroTela.style.display='flex';
-  console.error('##ERROR## Subject not found. Memory reference corrupted.');
-  throw new Error('##ERROR## Subject not found. Memory reference corrupted.');
+<meta charset="UTF-8" />
+<title>TT</title>
+
+<style>
+html,body{
+margin:0;
+padding:0;
+width:100%;
+height:100%;
+background:#000;
+display:flex;
+justify-content:center;
+align-items:center;
+color:#fff;
+font-family:Arial
 }
 
-window.addEventListener('load',() => {
-  if(localStorage.getItem(FLAG) === '1'){
-    erroTela.style.display='flex';
-    console.error('##ERROR## Subject not found. Memory reference corrupted.');
-    return;
-  }
+.texto{
+font-size:48px;
+letter-spacing:4px
+}
 
-  setTimeout(() => { texto.innerText = "He's not here anymore..."; }, 20000);
-  setTimeout(() => { ativarErro(); }, 30000);
+.erro{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:#000;
+display:none;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+color:#ff0000;
+font-weight:bold;
+font-size:42px
+}
+
+.login{
+display:none;
+flex-direction:column;
+gap:10px;
+margin-top:30px
+}
+
+input{
+padding:10px;
+background:#111;
+border:1px solid #444;
+color:white
+}
+
+button{
+padding:10px;
+background:#222;
+color:white;
+border:1px solid #555;
+cursor:pointer
+}
+</style>
+</head>
+
+<body>
+
+<div class="texto">*TT*</div>
+
+<div id="erro" class="erro">
+<span>ERRO 929</span>
+<span>a página parou</span>
+
+<div id="loginBox" class="login">
+<input id="login" placeholder="login">
+<input id="senha" type="password" placeholder="senha">
+<button onclick="verificarLogin()">entrar</button>
+</div>
+
+</div>
+
+<script>
+
+const texto = document.querySelector('.texto');
+const erroTela = document.getElementById('erro');
+const loginBox = document.getElementById('loginBox');
+
+const FLAG = 'erro_929_ativo';
+
+function ativarErro(){
+localStorage.setItem(FLAG,'1');
+erroTela.style.display='flex';
+console.error('##ERROR## Subject not found. Memory reference corrupted.');
+}
+
+window.addEventListener('load',()=>{
+
+if(localStorage.getItem(FLAG)==='1'){
+erroTela.style.display='flex';
+return;
+}
+
+setTimeout(()=>{
+texto.innerText="He's not here anymore...";
+},20000);
+
+setTimeout(()=>{
+ativarErro();
+},30000);
+
 });
 
-  </script>
+
+// RESET SECRET
+let buffer="";
+
+document.addEventListener("keydown",(e)=>{
+
+buffer+=e.key.toLowerCase();
+
+if(buffer.length>30){
+buffer=buffer.slice(-30);
+}
+
+if(buffer.includes("tt return")){
+localStorage.removeItem(FLAG);
+location.reload();
+}
+
+// COMANDO PROJETO
+if(buffer.includes("proj3cttt") && erroTela.style.display==="flex"){
+loginBox.style.display="flex";
+console.log("TT secure terminal opened");
+}
+
+});
+
+
+// LOGIN CHECK
+function verificarLogin(){
+
+const login=document.getElementById("login").value;
+const senha=document.getElementById("senha").value;
+
+if(login==="devadm29tt" && senha==="17032026tt"){
+
+window.location.href="prjctTT.html";
+
+}else{
+
+alert("Access denied");
+
+}
+
+}
+
+</script>
+
 </body>
 </html>
