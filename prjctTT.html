@@ -5,195 +5,253 @@
 <title>TT Project</title>
 
 <style>
-
-body{
-margin:0;
-height:100vh;
-background:black;
-display:flex;
-justify-content:center;
-align-items:center;
-color:white;
-font-family:Arial;
-font-size:48px;
-letter-spacing:3px;
-flex-direction:column;
+html, body{
+  margin:0;
+  padding:0;
+  width:100%;
+  height:100%;
+  background:#000;
+  color:#00ff41;
+  font-family:monospace;
+  overflow:hidden;
 }
 
-
-
-.popup{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.9);
-display:none;
-justify-content:center;
-align-items:center;
-color:red;
-font-size:32px;
-text-align:center;
+/* TEXTO PRINCIPAL */
+#mainText{
+  position:absolute;
+  width:100%;
+  height:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  color:#fff;
+  font-size:32px;
 }
 
-.popupBox{
-position:relative;
-background:black;
-padding:40px;
-border:2px solid red;
+/* TELA HACK */
+#hackScreen{
+  position:absolute;
+  width:100%;
+  height:100%;
+  padding:20px;
+  display:none;
+  overflow:hidden;
 }
 
-.closeBtn{
-position:absolute;
-top:5px;
-right:10px;
-cursor:pointer;
-color:white;
-font-size:24px;
+/* PROGRESS BAR */
+#progressContainer{
+  position:absolute;
+  bottom:40px;
+  left:50%;
+  transform:translateX(-50%);
+  width:60%;
+  height:4px;
+  background:#111;
+  display:none;
 }
 
-
-
-.erro{
-display:none;
-flex-direction:column;
-align-items:center;
-color:red;
-font-size:42px;
+#progressBar{
+  width:0%;
+  height:100%;
+  background:#00ff41;
 }
 
-.stop{
-display:none;
-color:white;
-font-size:18px;
-margin-top:10px;
+/* IMAGEM FLASH */
+#flashImg{
+  position:absolute;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:none;
 }
 
-img{
-display:none;
-max-width:300px;
-margin-top:20px;
+/* ERRO FINAL */
+#erroFinal{
+  position:absolute;
+  width:100%;
+  height:100%;
+  background:#000;
+  display:none;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  color:#ff0000;
+  font-size:40px;
+  font-weight:bold;
 }
 
+#erroFinal small{
+  color:#fff;
+  font-size:18px;
+  margin-top:10px;
+}
 </style>
 </head>
 
 <body>
 
-<div id="texto">
-    <p>TT is backing</p>
+<div id="mainText">TT is backing</div>
+
+<div id="hackScreen"></div>
+
+<img id="flashImg" src="cmd.png">
+
+<div id="progressContainer">
+  <div id="progressBar"></div>
 </div>
 
-<img id="imagem" src="Design_sem_nome-removebg-preview (1).png">
-
-<div id="popup" class="popup">
-<div class="popupBox">
-
-<div class="closeBtn" onclick="fecharPopup()">X</div>
-
-Security Log - Subject removed
-
-</div>
-</div>
-
-<div id="erro" class="erro">
-
-<span>ERRO 929</span>
-
-<span>a página parou</span>
-
-<div id="stop" class="stop">
-Stop... here... NOW...
-</div>
-
+<div id="erroFinal">
+  <div>ERRO 929</div>
+  <small>Stop... here... NOW...</small>
 </div>
 
 <script>
 
-window.addEventListener("load", () => {
+const FLAG = "tt_persistent_error";
 
-const popup = document.getElementById("popup");
-const texto = document.getElementById("texto");
-const imagem = document.getElementById("imagem");
-const erro = document.getElementById("erro");
-const stop = document.getElementById("stop");
-
-const ERROR_FLAG = "tt_project_error";
-
+const hackScreen = document.getElementById("hackScreen");
+const mainText = document.getElementById("mainText");
+const flashImg = document.getElementById("flashImg");
+const progressContainer = document.getElementById("progressContainer");
+const progressBar = document.getElementById("progressBar");
+const erroFinal = document.getElementById("erroFinal");
 
 
-if(localStorage.getItem(ERROR_FLAG) === "1"){
+if(localStorage.getItem(FLAG) === "1"){
+  mostrarErroFinal();
+}else{
+  iniciarSequencia();
+}
 
-texto.style.display="none";
-popup.style.display="none";
-imagem.style.display="none";
 
-erro.style.display="flex";
+function iniciarSequencia(){
 
-setTimeout(()=>{
-stop.style.display="block";
-},2000);
-
-console.error("##ERROR## Subject removed from TT system.");
-throw new Error("TT SECURITY FAILURE - SUBJECT ERASED");
-
-return;
+  setTimeout(()=>{
+    iniciarHack();
+  },10000);
 
 }
 
 
+function iniciarHack(){
 
-setTimeout(()=>{
+  mainText.style.display = "none";
+  hackScreen.style.display = "block";
 
-popup.style.display="flex";
+  const linhas = [
+    "Initializing TT protocol...",
+    "Bypassing firewall...",
+    "Injecting payload...",
+    "Accessing system kernel...",
+    "Scanning environment...",
+    "Locating subject...",
+    "Decrypting memory blocks...",
+    "Connection established...",
+    "Uploading data..."
+  ];
 
-},10000);
+  let i = 0;
 
+  function escrever(){
+    if(i < linhas.length){
+      const p = document.createElement("div");
+      p.textContent = "> " + linhas[i];
+      hackScreen.appendChild(p);
+      i++;
+      setTimeout(escrever, 300);
+    }else{
+      faseFlash();
+    }
+  }
 
-
-
-window.fecharPopup = function(){
-
-popup.style.display="none";
-
-
-
-texto.style.display="none";
-imagem.style.display="block";
-
-setTimeout(()=>{
-
-imagem.style.display = "none";
-texto.style.display = "block";
-
-
-
-setTimeout(()=>{
-
-texto.style.display="none";
-erro.style.display="flex";
-
-
-
-localStorage.setItem(ERROR_FLAG,"1");
-
+  escrever();
+}
 
 
-setTimeout(()=>{
+function faseFlash(){
 
-stop.style.display="block";
+  hackScreen.style.display = "none";
+  flashImg.style.display = "block";
 
-console.error("##ERROR## Subject removed from TT system.");
-throw new Error("TT SECURITY FAILURE - SUBJECT ERASED");
+  setTimeout(()=>{
+    flashImg.style.display = "none";
+    faseBarra();
+  },100); 
+}
 
-},2000);
 
-},5000);
+function faseBarra(){
 
-},1000);
+  progressContainer.style.display = "block";
+
+  let progresso = 0;
+
+  const intervalo = setInterval(()=>{
+    progresso += 5;
+    progressBar.style.width = progresso + "%";
+
+    if(progresso >= 100){
+      clearInterval(intervalo);
+      faseAcesso();
+    }
+
+  }, 200); 
+}
+
+
+function faseAcesso(){
+
+  progressContainer.style.display = "none";
+
+  const txt = document.createElement("div");
+  txt.style.position = "absolute";
+  txt.style.top = "50%";
+  txt.style.left = "50%";
+  txt.style.transform = "translate(-50%, -50%)";
+  txt.style.color = "#00ff41";
+  txt.style.fontSize = "24px";
+
+  txt.textContent = "ACESS : IP#jdhfuuejfnfjkvhhhf##";
+
+  document.body.appendChild(txt);
+
+  setTimeout(()=>{
+    txt.remove();
+    ativarErroFinal();
+  },2000);
+}
+
+/* FASE FINAL */
+function ativarErroFinal(){
+
+  localStorage.setItem(FLAG,"1");
+  mostrarErroFinal();
+
+  console.error("##ERROR 929## SYSTEM LOCKED");
 
 }
+
+function mostrarErroFinal(){
+
+  erroFinal.style.display = "flex";
+
+}
+
+// RESET SECRETO
+let buffer = "";
+
+document.addEventListener("keydown", (e) => {
+
+  buffer += e.key.toLowerCase();
+
+  if(buffer.length > 50){
+    buffer = buffer.slice(-50);
+  }
+
+  if(buffer.includes("pr return")){
+    localStorage.removeItem("tt_persistent_error");
+    location.reload();
+  }
 
 });
 

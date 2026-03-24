@@ -87,70 +87,75 @@ const loginBox = document.getElementById('loginBox');
 
 const FLAG = 'erro_929_ativo';
 
+function d(x){ return atob(x); }
+
+
+const USER = "ZGV2YWRtMjl0dA==";   
+const PASS = "MTcwMzIwMjZ0dA==";   
+
 function ativarErro(){
-localStorage.setItem(FLAG,'1');
-erroTela.style.display='flex';
-console.error('##ERROR## Subject not found. Memory reference corrupted.');
+  localStorage.setItem(FLAG,'1');
+  erroTela.style.display='flex';
+  console.error('##ERROR## Subject not found. Memory reference corrupted.');
 }
 
 window.addEventListener('load',()=>{
 
-if(localStorage.getItem(FLAG)==='1'){
-erroTela.style.display='flex';
-return;
-}
+  if(localStorage.getItem(FLAG)==='1'){
+    erroTela.style.display='flex';
+    return;
+  }
 
-setTimeout(()=>{
-texto.innerText="He's not here anymore...";
-},20000);
+  setTimeout(()=>{
+    texto.innerText="He's not here anymore...";
+  },20000);
 
-setTimeout(()=>{
-ativarErro();
-},30000);
+  setTimeout(()=>{
+    ativarErro();
+  },30000);
 
 });
 
 
-// RESET SECRET
+
 let buffer="";
 
 document.addEventListener("keydown",(e)=>{
 
-buffer+=e.key.toLowerCase();
+  buffer += e.key.toLowerCase();
 
-if(buffer.length>30){
-buffer=buffer.slice(-30);
-}
+  if(buffer.length > 50){
+    buffer = buffer.slice(-50);
+  }
 
-if(buffer.includes("tt return")){
-localStorage.removeItem(FLAG);
-location.reload();
-}
+  
+  if(buffer.includes("tt return")){
+    localStorage.removeItem(FLAG);
+    location.reload();
+  }
 
-// COMANDO PROJETO
-if(buffer.includes("proj3cttt") && erroTela.style.display==="flex"){
-loginBox.style.display="flex";
-console.log("TT secure terminal opened");
-}
+  
+  if(buffer.includes("proj3cttt") && erroTela.style.display==="flex"){
+    loginBox.style.display="flex";
+    console.log("TT secure terminal opened");
+  }
 
 });
 
 
-// LOGIN CHECK
 function verificarLogin(){
 
-const login=document.getElementById("login").value;
-const senha=document.getElementById("senha").value;
+  const login = document.getElementById("login").value;
+  const senha = document.getElementById("senha").value;
 
-if(login==="devadm29tt" && senha==="17032026tt"){
-
-window.location.href="prjctTT.html";
-
-}else{
-
-alert("Access denied");
-
-}
+  if(
+    btoa(login) === USER &&
+    btoa(senha) === PASS
+  ){
+    window.location.href = "prjctTT.html";
+  }else{
+    alert("Access denied");
+  }
 
 }
 
